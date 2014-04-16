@@ -6,7 +6,7 @@ import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
 import com.dinhanh.ballteShip.actions.MyInputProcessor;
-import com.dinhanh.battleship.dialog.MyDialog;
+import com.dinhanh.battleship.dialog.GameDialog;
 import com.dinhanh.battleship.game.WorldController;
 import com.dinhanh.battleship.game.WorldRenderer;
 import com.dinhanh.battleship.utils.CommonProcess;
@@ -22,7 +22,7 @@ public class GameScreen extends AbstractGameScreen {
 
 	WorldController worldController;
 	WorldRenderer worldRenderer;
-	MyDialog dialog;
+	GameDialog dialog;
 	boolean isNextScreen = false;
 	int countTime = 5;
 	MyInputProcessor myInputProcessor;
@@ -39,7 +39,7 @@ public class GameScreen extends AbstractGameScreen {
 		worldRenderer = new WorldRenderer(worldController);
 		myInputProcessor = new MyInputProcessor();
 		myInputProcessor.setPlayer(worldController.player);
-		dialog = new MyDialog(worldController.player);
+		dialog = new GameDialog(worldController.player);
 
 		inputMultiplexer = new InputMultiplexer();
 		inputMultiplexer.addProcessor(dialog.getStage());

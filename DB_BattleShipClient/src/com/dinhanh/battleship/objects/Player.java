@@ -24,11 +24,13 @@ public class Player extends GameObject {
 	public static final int MOVE_ALPHA = 5;
 	public static final int MOVE_NONE = 6;
 
+	// Biến quy định loại người chơi.
 	private int playerType;
 	public static final int TYPE_MYPLAYER = 10;
 	public static final int TYPE_OTHER_PLAYER = 11;
 	public static final int TYPE_AUTOMOVE_PLAYER = 12;
 
+	// Thông tin người chơi. ClientID là cái định danh đối với server
 	public int clientID = 0;
 	public String playerName;
 

@@ -3,137 +3,151 @@ HePhanTan.png
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
-ball
+bg
   rotate: false
-  xy: 1, 387
-  size: 675, 623
-  orig: 675, 623
-  offset: 0, 0
-  index: -1
-tex_battleShip
-  rotate: false
-  xy: 1, 205
-  size: 430, 180
-  orig: 430, 180
-  offset: 0, 0
-  index: -1
-loading
-  rotate: false
-  xy: 1, 87
-  size: 437, 116
-  orig: 437, 116
-  offset: 0, 0
-  index: -1
-tex-multiPlayer
-  rotate: false
-  xy: 1, 35
-  size: 365, 50
-  orig: 365, 50
-  offset: 0, 0
-  index: -1
-gameOver
-  rotate: false
-  xy: 678, 887
-  size: 285, 123
-  orig: 285, 123
-  offset: 0, 0
-  index: -1
-tex_startGame
-  rotate: false
-  xy: 678, 835
-  size: 284, 50
-  orig: 284, 50
-  offset: 0, 0
-  index: -1
-tex_exit
-  rotate: false
-  xy: 433, 337
-  size: 94, 48
-  orig: 94, 48
+  xy: 1, 530
+  size: 800, 480
+  orig: 800, 480
   offset: 0, 0
   index: -1
 player_blue
   rotate: false
-  xy: 678, 769
+  xy: 803, 946
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
+tex_exit
+  rotate: false
+  xy: 803, 896
+  size: 94, 48
+  orig: 94, 48
+  offset: 0, 0
+  index: -1
 player_red
   rotate: false
-  xy: 433, 271
+  xy: 869, 946
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
 powerOff
   rotate: false
-  xy: 433, 205
+  xy: 803, 830
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
 refresh
   rotate: false
-  xy: 678, 707
+  xy: 803, 768
   size: 60, 60
   orig: 60, 60
   offset: 0, 0
   index: -1
 fireButton
   rotate: false
-  xy: 1, 1
+  xy: 803, 734
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
 moveDown
   rotate: false
-  xy: 368, 53
+  xy: 803, 700
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
 moveLeft
   rotate: false
-  xy: 965, 978
+  xy: 803, 666
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
 moveRight
   rotate: false
-  xy: 529, 353
+  xy: 803, 632
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
 MoveUp
   rotate: false
-  xy: 744, 801
+  xy: 803, 598
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
 loadingbar
   rotate: false
-  xy: 499, 318
+  xy: 803, 579
   size: 25, 17
   orig: 25, 17
   offset: 0, 0
   index: -1
 bullet_blue
   rotate: false
-  xy: 440, 187
+  xy: 803, 561
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 bullet_red
   rotate: false
-  xy: 678, 689
+  xy: 803, 543
   size: 16, 16
   orig: 16, 16
+  offset: 0, 0
+  index: -1
+btnGoChecked
+  rotate: false
+  xy: 1, 266
+  size: 524, 262
+  orig: 524, 262
+  offset: 0, 0
+  index: -1
+btnGoUp
+  rotate: false
+  xy: 1, 2
+  size: 524, 262
+  orig: 524, 262
+  offset: 0, 0
+  index: -1
+loading
+  rotate: false
+  xy: 527, 412
+  size: 437, 116
+  orig: 437, 116
+  offset: 0, 0
+  index: -1
+tex_battleShip
+  rotate: false
+  xy: 527, 230
+  size: 430, 180
+  orig: 430, 180
+  offset: 0, 0
+  index: -1
+gameOver
+  rotate: false
+  xy: 527, 105
+  size: 285, 123
+  orig: 285, 123
+  offset: 0, 0
+  index: -1
+tex-multiPlayer
+  rotate: false
+  xy: 527, 53
+  size: 365, 50
+  orig: 365, 50
+  offset: 0, 0
+  index: -1
+tex_startGame
+  rotate: false
+  xy: 527, 1
+  size: 284, 50
+  orig: 284, 50
   offset: 0, 0
   index: -1
 
@@ -141,10 +155,17 @@ HePhanTan2.png
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
-bg
+ball
+  rotate: false
+  xy: 1, 265
+  size: 675, 623
+  orig: 675, 623
+  offset: 0, 0
+  index: -1
+loginForm
   rotate: false
   xy: 1, 1
-  size: 800, 480
-  orig: 800, 480
+  size: 524, 262
+  orig: 524, 262
   offset: 0, 0
   index: -1

@@ -3,6 +3,7 @@ package com.dinhanh.battleship.screens;
 import java.io.IOException;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -12,6 +13,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.dinhanh.battleShipClient.ClientListener;
 import com.dinhanh.battleShipClient.ClientProgram;
 import com.dinhanh.battleship.assets.Assets;
+import com.dinhanh.battleship.dialog.DialogLogin;
 import com.dinhanh.battleship.dialog.StageMainMenu;
 import com.dinhanh.battleship.utils.Storage;
 import com.dinhanh.myUtils.AbstractGameScreen;
@@ -32,16 +34,27 @@ public class MenuScreen extends AbstractGameScreen {
 	TextureRegion tex_loading;
 	NinePatch ninePatch;
 	StageMainMenu stageMainMenu;
+	DialogLogin dialogLogin;
+	InputMultiplexer inputMultiplexer;
+
 	boolean connected = false;
+
+	boolean showLogin = false;
+	boolean showStartGame = false;
 
 	ClientListener clientListener;
 
 	public MenuScreen(DirectedGame game) {
 		super(game);
 		this.game = game;
-		gameScreen = new GameScreen(game,false);
+		gameScreen = new GameScreen(game, false);
 		stageMainMenu = new StageMainMenu(this);
-		stageMainMenu.showStage(false);
+		dialogLogin = new DialogLogin(this);
+		inputMultiplexer = new InputMultiplexer();
+		inputMultiplexer.addProcessor(dialogLogin.getStage());
+		inputMultiplexer.addProcessor(stageMainMenu.getStage());
+		Gdx.input.setInputProcessor(inputMultiplexer);
+		
 		// startConnect();
 	}
 
@@ -67,10 +80,11 @@ public class MenuScreen extends AbstractGameScreen {
 		switchScreen();
 		Gdx.gl.glClearColor(0, 0, 0, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-		if (!stageMainMenu.getShowStage()) {
+		if (!dialogLogin.isShowing() && !stageMainMenu.getShowStage()) {
 			renderLoading(camera, batch);
 		}
 		stageMainMenu.render();
+		dialogLogin.render(deltaTime);
 
 	}
 
@@ -81,11 +95,18 @@ public class MenuScreen extends AbstractGameScreen {
 		}
 
 		if (Gdx.input.justTouched()) {
-			if (!isNextScreen) {
-				// game.setScreen(gameScreen);
-				stageMainMenu.showStage(true);
-				isNextScreen = true;
+			if (!showLogin) {
+				dialogLogin.showStage(true);
+				showLogin = true;
 			}
+		}
+	}
+
+	public void showStartGame() {
+		if (!showStartGame) {
+			// game.setScreen(gameScreen);
+			stageMainMenu.showStage(true);
+			showStartGame = true;
 		}
 	}
 
@@ -139,7 +160,7 @@ public class MenuScreen extends AbstractGameScreen {
 
 	@Override
 	public InputProcessor getInputProcessor() {
-		return stageMainMenu.getStage();
+		return inputMultiplexer;
 	}
 
 	public void nextScreen() {
@@ -150,7 +171,7 @@ public class MenuScreen extends AbstractGameScreen {
 	public void nextScreen(float duration) {
 		if (!isNextMultiGameScreen)
 			gameScreen.setMultiGame(true);
-			isNextMultiGameScreen = true;
+		isNextMultiGameScreen = true;
 	}
 
 }

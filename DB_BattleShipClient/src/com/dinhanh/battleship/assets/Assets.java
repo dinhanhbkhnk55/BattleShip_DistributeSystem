@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.Texture.TextureFilter;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.Disposable;
 import com.dinhanh.battleship.utils.Storage;
 
@@ -31,6 +32,7 @@ public class Assets implements Disposable, AssetErrorListener {
 				TextureAtlas.class);
 		assetManager.load(Storage.instance.FONT_1, BitmapFont.class);
 		assetManager.load(Storage.instance.FONT_2, BitmapFont.class);
+		assetManager.load(Storage.instance.DEFAULT_SKIN, Skin.class);
 		assetManager.finishLoading();
 
 		textureAtlas = assetManager.get(

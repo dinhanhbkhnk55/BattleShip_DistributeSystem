@@ -8,8 +8,8 @@ public class Storage {
 	public float HEIGHT_SCREEN = 480f;
 
 	public final String TEXTUREATLAS_HEPHANTAN = "data/packs/HePhanTan.pack";
-	
+
 	public final String FONT_1 = "data/fonts/font_digital.fnt";
 	public final String FONT_2 = "data/fonts/regularHeiro.fnt";
-
+	public final String DEFAULT_SKIN = "data/skins/uiskin.json";
 }

@@ -24,10 +24,10 @@ public class Player extends GameObject {
 	public static final int MOVE_LEFT = 1;
 	public static final int MOVE_RIGHT = 2;
 	public static final int MOVE_UP = 3;
+	public static final int MOVE_NONE = 4;
 
-	public static final int DIE = 4;
+	public static final int DIE = 6;
 	public static final int MOVE_ALPHA = 5;
-	public static final int MOVE_NONE = 6;
 
 	// Biến quy định loại người chơi.
 	private int playerType;
@@ -58,9 +58,10 @@ public class Player extends GameObject {
 	}
 
 	private void init() {
+		stateMove = MOVE_NONE;
 		setPlayer(playerType);
 		setPosition(100, 200);
-		stateMove = MOVE_NONE;
+
 	}
 
 	@Override
@@ -133,31 +134,49 @@ public class Player extends GameObject {
 		sendTCPPack();
 	}
 
-	float randomTime = 3f;
-	float time = 0;
+	
 
 	private void updateOtherPlayer(float deltaTime) {
-		if (OverlapTester.pointInRectangle(new Rectangle(0, 0,
-				Storage.instance.WIDTH_SCREEN, Storage.instance.WIDTH_SCREEN),
-				getOrinCenter())) {
-
-			if (time > 0) {
-				time -= deltaTime;
-			} else if (time == 0) {
-				setStateMove(stateMove);
-				time = 3 + 5 * (new Random().nextFloat());
-				setStateMove(new Random().nextInt(4));
-			}
-
-		} else {
-
-		}
+		
 	}
-
+	
+	float timeRandomFire = 1f;
+	float timeRandomMove = 0;
 	private void updateAutoMovePlayer(float deltaTime) {
 		switch (getState()) {
 		case State.RUNNING:
+			if (OverlapTester.pointInRectangle(new Rectangle(0, 0,
+					Storage.instance.WIDTH_SCREEN, Storage.instance.HEIGHT_SCREEN),
+					getOrinCenter())) {
+				// Auto fire
+				if (timeRandomFire > 0) {
+					timeRandomFire -= deltaTime;
+				} else {
+					fire(true);
+					timeRandomFire = 1 + (new Random().nextFloat());
+				}
 
+				// auto setStateMove
+				if (timeRandomMove > 0) {
+					timeRandomMove -= deltaTime;
+				} else {
+					setStateMove(stateMove);
+					timeRandomMove = 1 + (new Random().nextFloat());
+					setStateMove(new Random().nextInt(5));
+				}
+
+			} else {
+				timeRandomMove = 2;
+				if (getStateMove() == MOVE_LEFT) {
+					setStateMove(MOVE_RIGHT);
+				} else if (getStateMove() == MOVE_RIGHT) {
+					setStateMove(MOVE_LEFT);
+				} else if (getStateMove() == MOVE_UP) {
+					setStateMove(MOVE_DOWN);
+				} else {
+					setStateMove(MOVE_UP);
+				}
+			}
 			break;
 		case State.DISMISS:
 
@@ -242,7 +261,7 @@ public class Player extends GameObject {
 	private void udateFire() {
 		Bullet bullet = new Bullet(ani_Bullet);
 		bullet.setState(State.RUNNING);
-		bullet.setAlpha(0);
+		bullet.setAlpha(new Random().nextInt(360) );
 		bullet.setPosition(new Vector2(position.x
 				+ getTextureRegion().getRegionWidth() - 20, position.y
 				+ getTextureRegion().getRegionHeight() / 2 - 10));
@@ -346,10 +365,12 @@ public class Player extends GameObject {
 		case TYPE_OTHER_PLAYER:
 			ani_Bullet = Assets.instance.games.ani_bullet_blue;
 			this.animation = Assets.instance.games.ani_player_blue;
+
 			break;
 		case TYPE_AUTOMOVE_PLAYER:
 			ani_Bullet = Assets.instance.games.ani_bullet_blue;
 			this.animation = Assets.instance.games.ani_player_blue;
+			setStateMove(new Random().nextInt(4));
 			break;
 
 		default:

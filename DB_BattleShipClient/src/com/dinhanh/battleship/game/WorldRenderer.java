@@ -62,6 +62,7 @@ public class WorldRenderer implements Disposable {
 		BulletContainer.instance.render(Gdx.graphics.getDeltaTime(), camera, batch);
 		EnemyContainer.instance.render(deltaTime, camera, batch);
 		worldController.player.render(deltaTime, camera, batch);
+//		worldController.playerContainer.render(deltaTime, camera, batch);
 		batch.end();
 	}
 
@@ -84,7 +85,6 @@ public class WorldRenderer implements Disposable {
 	private void renderVariable(SpriteBatch batch) {
 		font.draw(batch, "Score : " + Values.instance.currentScore, 700, 460);
 		font.draw(batch, "Best : " + Values.instance.highScore, 700, 440);
-
 		font.draw(batch, "Delta Time : " + Gdx.graphics.getDeltaTime(), 20, 460);
 	}
 

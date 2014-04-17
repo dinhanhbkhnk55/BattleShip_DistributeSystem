@@ -20,6 +20,8 @@ public class GameScreen extends AbstractGameScreen {
 	DirectedGame game;
 	boolean isMultiGame = false;
 
+	
+
 	WorldController worldController;
 	WorldRenderer worldRenderer;
 	GameDialog dialog;
@@ -35,11 +37,13 @@ public class GameScreen extends AbstractGameScreen {
 		Gdx.input.setCatchBackKey(true);
 		this.game = game;
 		CommonProcess.setGameState(State.RUNNING);
+
 		worldController = new WorldController();
 		worldRenderer = new WorldRenderer(worldController);
 		myInputProcessor = new MyInputProcessor();
 		myInputProcessor.setPlayer(worldController.player);
 		dialog = new GameDialog(worldController.player);
+
 
 		inputMultiplexer = new InputMultiplexer();
 		inputMultiplexer.addProcessor(dialog.getStage());
@@ -59,12 +63,12 @@ public class GameScreen extends AbstractGameScreen {
 		worldRenderer.resize(width, height);
 	}
 
-	public void update() {
+	public void update(float deltaTime) {
 		updateScore();
 		myInputProcessor.update();
 		switch (CommonProcess.getGameState()) {
 		case State.RUNNING:
-			worldController.update(Gdx.graphics.getDeltaTime());
+			worldController.update(deltaTime);
 			break;
 		case State.PAUSE:
 			if (!dialog.isShowGameOver()) {
@@ -95,7 +99,7 @@ public class GameScreen extends AbstractGameScreen {
 		default:
 			break;
 		}
-		
+
 		if (Gdx.input.isKeyPressed(Keys.Z)) {
 			CommonProcess.setGameState(State.RESTART);
 		}
@@ -119,7 +123,7 @@ public class GameScreen extends AbstractGameScreen {
 
 	@Override
 	public void render(float deltaTime) {
-		update();
+		update(deltaTime);
 		worldRenderer.render(deltaTime);
 		dialog.render();
 	}

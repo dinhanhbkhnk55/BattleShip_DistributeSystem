@@ -1,26 +1,31 @@
 package com.dinhanh.battleship.objects;
 
+import java.util.Random;
 import java.util.Vector;
 
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.dinhanh.battleShipClient.ClientProgram;
 import com.dinhanh.battleship.assets.Assets;
 import com.dinhanh.battleship.clientpack.PacketMessage;
 import com.dinhanh.battleship.utils.State;
+import com.dinhanh.battleship.utils.Storage;
 import com.dinhanh.myUtils.GameObject;
+import com.dinhanh.myUtils.OverlapTester;
 
 public class Player extends GameObject {
 	/**
 	 * 
 	 */
-	public static final int DIE = 0;
+	public static final int MOVE_DOWN = 0;
 	public static final int MOVE_LEFT = 1;
 	public static final int MOVE_RIGHT = 2;
 	public static final int MOVE_UP = 3;
-	public static final int MOVE_DOWN = 4;
+
+	public static final int DIE = 4;
 	public static final int MOVE_ALPHA = 5;
 	public static final int MOVE_NONE = 6;
 
@@ -49,6 +54,7 @@ public class Player extends GameObject {
 	public Player(int playerType) {
 		super(Assets.instance.games.ani_player_red);
 		this.playerType = playerType;
+		init();
 	}
 
 	private void init() {
@@ -127,8 +133,25 @@ public class Player extends GameObject {
 		sendTCPPack();
 	}
 
-	private void updateOtherPlayer(float deltaTime) {
+	float randomTime = 3f;
+	float time = 0;
 
+	private void updateOtherPlayer(float deltaTime) {
+		if (OverlapTester.pointInRectangle(new Rectangle(0, 0,
+				Storage.instance.WIDTH_SCREEN, Storage.instance.WIDTH_SCREEN),
+				getOrinCenter())) {
+
+			if (time > 0) {
+				time -= deltaTime;
+			} else if (time == 0) {
+				setStateMove(stateMove);
+				time = 3 + 5 * (new Random().nextFloat());
+				setStateMove(new Random().nextInt(4));
+			}
+
+		} else {
+
+		}
 	}
 
 	private void updateAutoMovePlayer(float deltaTime) {

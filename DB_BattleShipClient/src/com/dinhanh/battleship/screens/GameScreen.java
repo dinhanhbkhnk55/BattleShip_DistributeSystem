@@ -93,18 +93,19 @@ public class GameScreen extends AbstractGameScreen {
 			}
 			break;
 		default:
-			if (Gdx.input.isKeyPressed(Keys.Z)) {
-				CommonProcess.setGameState(State.RESTART);
-			}
 			break;
 		}
-
+		
+		if (Gdx.input.isKeyPressed(Keys.Z)) {
+			CommonProcess.setGameState(State.RESTART);
+		}
 		if (Gdx.input.isButtonPressed(Input.Buttons.RIGHT)) {
 			setPlayerRed(true);
 		}
 		if (Gdx.input.isButtonPressed(Input.Buttons.MIDDLE)) {
 			setPlayerRed(false);
 		}
+
 	}
 
 	private void updateScore() {
@@ -141,8 +142,8 @@ public class GameScreen extends AbstractGameScreen {
 	public void setPlayerRed(boolean isPlayerRed) {
 		if (!isPlayerRed) {
 			// clientListener.setEnemy(worldController.player);
-//			dialog.setPlayer(worldController.enemy);
-//			myInputProcessor.setPlayer(worldController.enemy);
+			// dialog.setPlayer(worldController.enemy);
+			// myInputProcessor.setPlayer(worldController.enemy);
 		} else {
 			// clientListener.setEnemy(worldController.enemy);
 			dialog.setPlayer(worldController.player);

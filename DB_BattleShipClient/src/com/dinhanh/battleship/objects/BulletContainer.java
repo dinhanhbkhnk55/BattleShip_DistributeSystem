@@ -62,4 +62,8 @@ public class BulletContainer {
 	public void removeAllElements() {
 		listObjects.removeAllElements();
 	}
+
+	public void collisionWithListPlayer() {
+		
+	}
 }

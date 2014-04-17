@@ -18,7 +18,6 @@ public class Bullet extends GameObject {
 	public Bullet(Animation animation) {
 		super(animation);
 		setState(State.RUNNING);
-		System.out.println("Bullet Created");
 	}
 
 	@Override

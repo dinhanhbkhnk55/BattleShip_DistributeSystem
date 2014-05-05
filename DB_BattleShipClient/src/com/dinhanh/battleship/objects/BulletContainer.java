@@ -1,12 +1,15 @@
 package com.dinhanh.battleship.objects;
 
+import java.util.ArrayList;
 import java.util.Vector;
 
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.dinhanh.battleship.assets.Assets;
 import com.dinhanh.battleship.utils.CommonProcess;
 import com.dinhanh.battleship.utils.State;
 import com.dinhanh.myUtils.GameObject;
+import com.dinhanh.myUtils.OverlapTester;
 
 public class BulletContainer {
 	public static final BulletContainer instance = new BulletContainer();
@@ -22,7 +25,7 @@ public class BulletContainer {
 			object = listObjects.get(i);
 			if (object.getState() == State.RUNNING) {
 				object.update(deltaTime);
-			} else if (object.getState() == State.RUNNING) {
+			} else if (object.getState() == State.DISMISS) {
 				listObjects.remove(i);
 			}
 		}
@@ -63,7 +66,51 @@ public class BulletContainer {
 		listObjects.removeAllElements();
 	}
 
-	public void collisionWithListPlayer() {
-		
+	Bullet bullet;
+	Player player;
+
+	public void collisionWithListPlayer(ArrayList<Player> listPlayer,
+			Player mainPlayer) {
+		for (int j = 0; j < listObjects.size(); j++) {
+			if (listObjects.get(j) instanceof Bullet) {
+				bullet = (Bullet) listObjects.get(j);
+				if (mainPlayer.getPlayerType() != bullet.getType()
+						&& mainPlayer.getState() == State.RUNNING
+						&& mainPlayer.getState() == State.RUNNING) {
+					if (OverlapTester.overlapRectangles(
+							mainPlayer.getBoundCollision(),
+							bullet.getBoundCollision())) {
+
+						mainPlayer.collision();
+						bullet.collision();
+						ExplosionContainer.instance.addExplosion(
+								mainPlayer.getOrinCenter().x / 2
+										+ bullet.getOrinCenter().x / 2,
+								mainPlayer.getOrinCenter().y / 2
+										+ bullet.getOrinCenter().y / 2);
+					}
+				}
+
+				for (int i = 0; i < listPlayer.size(); i++) {
+					player = listPlayer.get(i);
+					if (player.getPlayerType() != bullet.getType()
+							&& player.getState() == State.RUNNING
+							&& bullet.getState() == State.RUNNING) {
+						if (OverlapTester.overlapRectangles(
+								player.getBoundCollision(),
+								bullet.getBoundCollision())) {
+							player.collision();
+							bullet.collision();
+							ExplosionContainer.instance.addExplosion(
+									player.getOrinCenter().x / 2
+											+ bullet.getOrinCenter().x / 2,
+									player.getOrinCenter().y / 2
+											+ bullet.getOrinCenter().y / 2);
+						}
+					}
+				}
+			}
+		}
 	}
+
 }

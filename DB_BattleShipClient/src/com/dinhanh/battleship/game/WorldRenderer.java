@@ -10,6 +10,7 @@ import com.badlogic.gdx.utils.Disposable;
 import com.dinhanh.battleship.assets.Assets;
 import com.dinhanh.battleship.objects.BulletContainer;
 import com.dinhanh.battleship.objects.EnemyContainer;
+import com.dinhanh.battleship.objects.ExplosionContainer;
 import com.dinhanh.battleship.utils.Storage;
 import com.dinhanh.battleship.utils.Values;
 
@@ -21,7 +22,7 @@ public class WorldRenderer implements Disposable {
 	public SpriteBatch batchUI;
 	BitmapFont font;
 	WorldController worldController;
-	float followSpeed = 2.5f;
+	float followSpeed = 2.0f;
 	Vector2 cam_pos = new Vector2(0, 0);
 
 	public WorldRenderer(WorldController worldController) {
@@ -62,6 +63,7 @@ public class WorldRenderer implements Disposable {
 		BulletContainer.instance.render(Gdx.graphics.getDeltaTime(), camera, batch);
 		EnemyContainer.instance.render(deltaTime, camera, batch);
 		worldController.player.render(deltaTime, camera, batch);
+		ExplosionContainer.instance.render(deltaTime, camera, batch);
 //		worldController.playerContainer.render(deltaTime, camera, batch);
 		batch.end();
 	}
@@ -75,11 +77,11 @@ public class WorldRenderer implements Disposable {
 
 	// Update Camera flow Player
 	private void updateCamera() {
-		// cam_pos.lerp(new Vector2(worldController.player.character.getX(),
-		// worldController.player.character.getY()),
-		// followSpeed * 0.016f);
-		// camera.position.set(cam_pos, 0);
-		// camera.update();
+//		 cam_pos.lerp(new Vector2(worldController.player.getOrinCenter().x,
+//		 worldController.player.getOrinCenter().y),
+//		 followSpeed * 0.016f);
+//		camera.position.set(cam_pos, 0);
+//		camera.update();
 	}
 
 	private void renderVariable(SpriteBatch batch) {

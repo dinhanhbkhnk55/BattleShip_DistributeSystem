@@ -12,6 +12,7 @@ import com.dinhanh.battleship.objects.EnemyContainer;
 import com.dinhanh.battleship.objects.Player;
 import com.dinhanh.battleship.utils.CommonProcess;
 import com.dinhanh.battleship.utils.State;
+import com.dinhanh.battleship.utils.Storage;
 import com.dinhanh.battleship.utils.Values;
 
 public class MyInputProcessor implements GestureListener {
@@ -60,6 +61,17 @@ public class MyInputProcessor implements GestureListener {
 		if (Gdx.input.isKeyPressed(Keys.O)) {
 			if (timeFire == 0) {
 				// create new enemy
+				enemy = new Player(Player.TYPE_AUTOMOVE_PLAYER);
+				enemy.setPosition(new Random().nextInt(800),
+						new Random().nextInt(480));
+				EnemyContainer.instance.addEnemy(enemy);
+				timeFire = maxTimeFire;
+			}
+
+		}
+		if (Gdx.input.isKeyPressed(Keys.I)) {
+			if (timeFire == 0) {
+				// create new enemy
 				enemy = new Player(Player.TYPE_OTHER_PLAYER);
 				enemy.setPosition(new Random().nextInt(800),
 						new Random().nextInt(480));
@@ -88,7 +100,7 @@ public class MyInputProcessor implements GestureListener {
 	@Override
 	public boolean tap(float x, float y, int count, int button) {
 		if (count == 2) {
-			player.createPlayer(x, y);
+			player.createPlayer(x, Storage.instance.HEIGHT_SCREEN - y - 5);
 		}
 
 		return false;
@@ -106,7 +118,6 @@ public class MyInputProcessor implements GestureListener {
 
 	@Override
 	public boolean pan(float x, float y, float deltaX, float deltaY) {
-
 		return false;
 	}
 

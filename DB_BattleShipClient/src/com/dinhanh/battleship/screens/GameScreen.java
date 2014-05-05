@@ -1,7 +1,6 @@
 package com.dinhanh.battleship.screens;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
@@ -9,6 +8,7 @@ import com.dinhanh.ballteShip.actions.MyInputProcessor;
 import com.dinhanh.battleship.dialog.GameDialog;
 import com.dinhanh.battleship.game.WorldController;
 import com.dinhanh.battleship.game.WorldRenderer;
+import com.dinhanh.battleship.objects.EnemyContainer;
 import com.dinhanh.battleship.utils.CommonProcess;
 import com.dinhanh.battleship.utils.GamePreferences;
 import com.dinhanh.battleship.utils.State;
@@ -19,24 +19,31 @@ import com.dinhanh.myUtils.DirectedGame;
 public class GameScreen extends AbstractGameScreen {
 	DirectedGame game;
 	boolean isMultiGame = false;
-
-	
-
 	WorldController worldController;
 	WorldRenderer worldRenderer;
 	GameDialog dialog;
 	boolean isNextScreen = false;
+	boolean showStartGame = false;
 	int countTime = 5;
 	MyInputProcessor myInputProcessor;
 	InputMultiplexer inputMultiplexer;
 	int count = 0;
 
+	public Minmap minmap;
+
 	public GameScreen(DirectedGame game, boolean isMultiGame) {
 		super(game);
 		this.isMultiGame = isMultiGame;
-		Gdx.input.setCatchBackKey(true);
 		this.game = game;
-		CommonProcess.setGameState(State.RUNNING);
+		init();
+		minmap = new Minmap(EnemyContainer.instance.listEnemy,
+				EnemyContainer.instance.player);
+
+	}
+
+	private void init() {
+		Gdx.input.setCatchBackKey(true);
+		CommonProcess.setGameState(State.WAIT_GAME_START);
 
 		worldController = new WorldController();
 		worldRenderer = new WorldRenderer(worldController);
@@ -44,13 +51,11 @@ public class GameScreen extends AbstractGameScreen {
 		myInputProcessor.setPlayer(worldController.player);
 		dialog = new GameDialog(worldController.player);
 
-
 		inputMultiplexer = new InputMultiplexer();
 		inputMultiplexer.addProcessor(dialog.getStage());
 		inputMultiplexer.addProcessor(myInputProcessor.getGestureDetector());
 		Gdx.input.setInputProcessor(getInputProcessor());
 		Values.instance.highScore = (int) GamePreferences.instance.highScore;
-
 	}
 
 	@Override
@@ -64,13 +69,17 @@ public class GameScreen extends AbstractGameScreen {
 	}
 
 	public void update(float deltaTime) {
+		minmap.update(deltaTime);
 		updateScore();
 		myInputProcessor.update();
 		switch (CommonProcess.getGameState()) {
+		case State.WAIT_GAME_START:
+			
+			break;
 		case State.RUNNING:
 			worldController.update(deltaTime);
 			break;
-		case State.PAUSE:
+		case State.GAME_OVER:
 			if (!dialog.isShowGameOver()) {
 				dialog.showGameOver(true);
 			}
@@ -103,12 +112,6 @@ public class GameScreen extends AbstractGameScreen {
 		if (Gdx.input.isKeyPressed(Keys.Z)) {
 			CommonProcess.setGameState(State.RESTART);
 		}
-		if (Gdx.input.isButtonPressed(Input.Buttons.RIGHT)) {
-			setPlayerRed(true);
-		}
-		if (Gdx.input.isButtonPressed(Input.Buttons.MIDDLE)) {
-			setPlayerRed(false);
-		}
 
 	}
 
@@ -124,8 +127,13 @@ public class GameScreen extends AbstractGameScreen {
 	@Override
 	public void render(float deltaTime) {
 		update(deltaTime);
+		
+		
+		
+		
 		worldRenderer.render(deltaTime);
 		dialog.render();
+		minmap.render();
 	}
 
 	@Override
@@ -141,18 +149,6 @@ public class GameScreen extends AbstractGameScreen {
 	@Override
 	public InputProcessor getInputProcessor() {
 		return inputMultiplexer;
-	}
-
-	public void setPlayerRed(boolean isPlayerRed) {
-		if (!isPlayerRed) {
-			// clientListener.setEnemy(worldController.player);
-			// dialog.setPlayer(worldController.enemy);
-			// myInputProcessor.setPlayer(worldController.enemy);
-		} else {
-			// clientListener.setEnemy(worldController.enemy);
-			dialog.setPlayer(worldController.player);
-			myInputProcessor.setPlayer(worldController.player);
-		}
 	}
 
 	public boolean isMultiGame() {

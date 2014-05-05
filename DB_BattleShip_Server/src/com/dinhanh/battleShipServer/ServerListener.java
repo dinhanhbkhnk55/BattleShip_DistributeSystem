@@ -24,7 +24,6 @@ public class ServerListener extends Listener {
 	
 	// This is run when a connection is received!
 	public void connected(Connection c) {
-
 		if (listSocketAdress.contains(c.getRemoteAddressTCP())) {
 			System.out.println("Connection has been created");
 		} else {
@@ -36,10 +35,13 @@ public class ServerListener extends Listener {
 			// server gửi gói tin chấp nhận và định danh cho Server
 			ServerProgram.server.sendToTCP(c.getID(), playerAuthorizePack);
 		}
+		
 	}
 
 	// This is run when we receive a packet.
 	public void received(Connection c, Object p) {
+	
+		
 		if (p instanceof PacketMessage) {
 			// handle and process data here
 			/*

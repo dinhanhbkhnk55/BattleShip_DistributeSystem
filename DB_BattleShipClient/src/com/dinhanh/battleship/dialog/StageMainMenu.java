@@ -105,7 +105,7 @@ public class StageMainMenu {
 			} else {
 				if (time < maxCountTime) {
 					time++;
-					if (time % 8 < 4) {
+					if (time % 12 < 6) {
 						bitmapFont.draw(batch,
 								"Touch Screen to turn back menu", 20, 40);
 					}

@@ -4,6 +4,7 @@ import java.util.Vector;
 
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 import com.dinhanh.battleship.utils.State;
@@ -11,14 +12,14 @@ import com.dinhanh.battleship.utils.Storage;
 import com.dinhanh.myUtils.GameObject;
 import com.dinhanh.myUtils.OverlapTester;
 
-public class Bullet extends GameObject {
-	float alpha = 0;
-	float speed = 2f;
-	private int type;
+public class Explosion extends GameObject {
+	boolean started = false;
+	float time = 0;
 
-	public Bullet(Animation animation) {
+	public Explosion(Animation animation) {
 		super(animation);
 		setState(State.RUNNING);
+		animation.setPlayMode(Animation.PlayMode.NORMAL);
 	}
 
 	@Override
@@ -26,8 +27,7 @@ public class Bullet extends GameObject {
 		if (OverlapTester.pointInRectangle(new Rectangle(0, 0,
 				Storage.instance.WIDTH_SCREEN, Storage.instance.HEIGHT_SCREEN),
 				position)) {
-			move((float) (speed * Math.cos(alpha)),
-					(float) (speed * Math.sin(alpha)));
+
 		} else {
 			setState(State.DISMISS);
 		}
@@ -36,12 +36,31 @@ public class Bullet extends GameObject {
 	@Override
 	public void render(float deltaTime, OrthographicCamera camera,
 			SpriteBatch batch) {
-		renderSprite(deltaTime, batch);
+		if (started) {
+			if (spriteObject == null) {
+				spriteObject = new Sprite(animation.getKeyFrame(frame
+						* animation.frameDuration));
+			}
+			time += deltaTime;
+			spriteObject.setRegion(animation.getKeyFrame(time));
+			spriteObject.setPosition(position.x
+					- getTextureRegion().getRegionWidth() / 2, position.y
+					- getTextureRegion().getRegionHeight() / 2);
+			spriteObject.setRotation(rotation);
+			spriteObject.setScale(scale);
+			spriteObject.draw(batch);
+			if (animation.isAnimationFinished(time)) {
+				setState(State.DISMISS);
+			}
+		}
 	}
 
 	public void setAlpha(float alpha) {
 		rotation = alpha;
-		this.alpha = (float) (alpha * Math.PI / 180f);
+	}
+
+	public void start() {
+		this.started = true;
 	}
 
 	@Override
@@ -58,13 +77,4 @@ public class Bullet extends GameObject {
 	public void collision(Vector<GameObject> listGameObject) {
 
 	}
-
-	public int getType() {
-		return type;
-	}
-
-	public void setType(int type) {
-		this.type = type;
-	}
-
 }

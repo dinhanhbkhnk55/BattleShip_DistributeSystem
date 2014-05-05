@@ -25,7 +25,6 @@ public class MenuScreen extends AbstractGameScreen {
 
 	SpriteBatch batch;
 	OrthographicCamera camera;
-	private boolean isNextScreen = false;
 	private boolean isNextMultiGameScreen = false;
 	int loading = 0;
 	int countTime = 0;
@@ -41,6 +40,7 @@ public class MenuScreen extends AbstractGameScreen {
 
 	boolean showLogin = false;
 	boolean showStartGame = false;
+	// ParticleEffect particleEffect = new ParticleEffect();
 
 	ClientListener clientListener;
 
@@ -54,7 +54,7 @@ public class MenuScreen extends AbstractGameScreen {
 		inputMultiplexer.addProcessor(dialogLogin.getStage());
 		inputMultiplexer.addProcessor(stageMainMenu.getStage());
 		Gdx.input.setInputProcessor(inputMultiplexer);
-		
+
 		// startConnect();
 	}
 
@@ -119,7 +119,7 @@ public class MenuScreen extends AbstractGameScreen {
 				Assets.instance.assetManager.getProgress() * 700, 15);
 		if (Assets.instance.assetManager.update()) {
 			countTime++;
-			if (countTime % 8 < 4) {
+			if (countTime % 10 < 5) {
 				Assets.instance.assetFont.bitmapFontGameOver.draw(batch,
 						"Get Ready !", 320, 200);
 			}
@@ -173,5 +173,4 @@ public class MenuScreen extends AbstractGameScreen {
 			gameScreen.setMultiGame(true);
 		isNextMultiGameScreen = true;
 	}
-
 }

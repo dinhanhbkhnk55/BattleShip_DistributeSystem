@@ -16,10 +16,13 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.dinhanh.battleship.assets.Assets;
+import com.dinhanh.battleship.objects.BulletContainer;
+import com.dinhanh.battleship.objects.EnemyContainer;
 import com.dinhanh.battleship.objects.Player;
 import com.dinhanh.battleship.utils.CommonProcess;
 import com.dinhanh.battleship.utils.State;
 import com.dinhanh.battleship.utils.Storage;
+import com.dinhanh.myUtils.Debug;
 
 public class GameDialog {
 	OrthographicCamera camera;
@@ -29,6 +32,7 @@ public class GameDialog {
 
 	ButtonStyle style_refresh, style_powerOff, style_moveUp, style_moveDown,
 			style_moveLeft, style_moveRight, style_fire;
+
 	boolean showControlButton = false;
 	boolean showGameOver = false;
 	Label gameOver;
@@ -39,7 +43,6 @@ public class GameDialog {
 		this.player = player;
 		init();
 		showGameOver(false);
-
 	}
 
 	private void init() {
@@ -73,6 +76,26 @@ public class GameDialog {
 				new TextureRegion(Assets.instance.games.moveRight));
 		skin.add("moveLeft", new TextureRegion(Assets.instance.games.moveLeft));
 		skin.add("fire", new TextureRegion(Assets.instance.games.fire));
+
+		skin.add(
+				"readyUp",
+				new TextureRegion(Assets.instance.games.ani_ready
+						.getKeyFrame(0)));
+		skin.add(
+				"readyDown",
+				new TextureRegion(
+						Assets.instance.games.ani_ready
+								.getKeyFrame(Assets.instance.games.ani_ready.frameDuration
+										/ Assets.instance.games.ani_ready.animationDuration)));
+		skin.add("startGameUp", new TextureRegion(
+				Assets.instance.games.ani_startGame.getKeyFrame(0)));
+		skin.add(
+				"startGameDown",
+				new TextureRegion(
+						Assets.instance.games.ani_ready
+								.getKeyFrame(Assets.instance.games.ani_startGame.frameDuration
+										/ Assets.instance.games.ani_startGame.animationDuration)));
+
 	}
 
 	private void initStage(Skin skin) {
@@ -113,7 +136,10 @@ public class GameDialog {
 
 			@Override
 			public void changed(ChangeEvent event, Actor actor) {
+				BulletContainer.instance.removeAllElements();
+				EnemyContainer.instance.removeAllElements();
 				CommonProcess.setGameState(State.RESTART_INGAME);
+
 			}
 		});
 
@@ -199,10 +225,10 @@ public class GameDialog {
 					Storage.instance.HEIGHT_SCREEN - 60, 1f,
 					Interpolation.swing));
 
-			moveUp.addAction(Actions.moveTo(90, -90, 1f, Interpolation.swing));
-			moveDown.addAction(Actions.moveTo(90, -10, 1f, Interpolation.swing));
-			moveLeft.addAction(Actions.moveTo(40, -50, 1f, Interpolation.swing));
-			moveRight.addAction(Actions.moveTo(140, -50, 1f,
+			moveUp.addAction(Actions.moveTo(90, -130, 1f, Interpolation.swing));
+			moveDown.addAction(Actions.moveTo(90, -50, 1f, Interpolation.swing));
+			moveLeft.addAction(Actions.moveTo(40, -90, 1f, Interpolation.swing));
+			moveRight.addAction(Actions.moveTo(140, -90, 1f,
 					Interpolation.swing));
 			fire.addAction(Actions.moveTo(710, -50, 1f, Interpolation.swing));
 		} else {
@@ -218,12 +244,15 @@ public class GameDialog {
 					Storage.instance.HEIGHT_SCREEN - 60, 1f,
 					Interpolation.swing));
 
-			moveUp.addAction(Actions.moveTo(90, 90, 1f, Interpolation.swing));
-			moveDown.addAction(Actions.moveTo(90, 10, 1f, Interpolation.swing));
-			moveLeft.addAction(Actions.moveTo(40, 50, 1f, Interpolation.swing));
-			moveRight.addAction(Actions
-					.moveTo(140, 50, 1f, Interpolation.swing));
-			fire.addAction(Actions.moveTo(710, 50, 1f, Interpolation.swing));
+			// moveUp.addAction(Actions.moveTo(90, 90, 1f,
+			// Interpolation.swing));
+			// moveDown.addAction(Actions.moveTo(90, 10, 1f,
+			// Interpolation.swing));
+			// moveLeft.addAction(Actions.moveTo(40, 50, 1f,
+			// Interpolation.swing));
+			// moveRight.addAction(Actions
+			// .moveTo(140, 50, 1f, Interpolation.swing));
+			// fire.addAction(Actions.moveTo(710, 50, 1f, Interpolation.swing));
 
 		}
 	}
@@ -255,4 +284,5 @@ public class GameDialog {
 	public void setPlayer(Player player) {
 		this.player = player;
 	}
+
 }

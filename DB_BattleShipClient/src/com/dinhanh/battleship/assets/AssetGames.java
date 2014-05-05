@@ -31,6 +31,13 @@ public class AssetGames {
 	public TextureRegion fire;
 	public TextureRegion refresh;
 	public TextureRegion powerOff;
+	public TextureRegion explosion;
+	public TextureRegion ready;
+	public TextureRegion startGame;
+	public TextureRegion reg_minmap;
+
+	// Texture and aniamtion for gameEffect
+	public TextureRegion reg_sunsight;
 
 	// Texture and animation for player object
 	public TextureRegion reg_PlayerRed;
@@ -41,6 +48,9 @@ public class AssetGames {
 	public Animation ani_player_blue;
 	public Animation ani_bullet_red;
 	public Animation ani_bullet_blue;
+	public Animation ani_explosion;
+	public Animation ani_ready;
+	public Animation ani_startGame;
 
 	private TextureAtlas textureAtlas;
 
@@ -70,21 +80,30 @@ public class AssetGames {
 		fire = textureAtlas.findRegion("fireButton");
 		refresh = textureAtlas.findRegion("refresh");
 		powerOff = textureAtlas.findRegion("powerOff");
+		explosion = textureAtlas.findRegion("explosion");
+		ready = textureAtlas.findRegion("ReadyButton");
+		startGame = textureAtlas.findRegion("StartGameButton");
+		reg_minmap = textureAtlas.findRegion("minmap");
 
 		// ================================================
 		reg_bullet_red = textureAtlas.findRegion("bullet_red");
 		reg_bullet_blue = textureAtlas.findRegion("bullet_blue");
 		reg_PlayerBlue = textureAtlas.findRegion("player_blue");
-		reg_PlayerRed = textureAtlas.findRegion("player_red");
+		// reg_PlayerRed = textureAtlas.findRegion("player_red");
+		reg_PlayerRed = textureAtlas.findRegion("shipAnimation");
 
 		ani_player_red = CommonProcess.instance.creatAnimation(reg_PlayerRed,
-				1, 1);
+				4, 3);
 		ani_player_blue = CommonProcess.instance.creatAnimation(reg_PlayerBlue,
 				1, 1);
 		ani_bullet_red = CommonProcess.instance.creatAnimation(reg_bullet_red,
 				1, 1);
 		ani_bullet_blue = CommonProcess.instance.creatAnimation(
 				reg_bullet_blue, 1, 1);
+		ani_explosion = CommonProcess.instance.creatAnimation(explosion,
+				0.025f, 5, 4);
+		ani_ready = CommonProcess.instance.creatAnimation(ready, 2, 1);
+		ani_startGame = CommonProcess.instance.creatAnimation(startGame, 2, 1);
 
 		// ====================== texture for MainmenuScreen ==============
 		reg_battleShip = textureAtlas.findRegion("tex_battleShip");
@@ -92,5 +111,7 @@ public class AssetGames {
 		reg_MultiPlayer = textureAtlas.findRegion("tex-multiPlayer");
 		reg_Exit = textureAtlas.findRegion("tex_exit");
 
+		// Texture and aniamtion for gameEffect
+		reg_sunsight = textureAtlas.findRegion("lighteffect");
 	}
 }

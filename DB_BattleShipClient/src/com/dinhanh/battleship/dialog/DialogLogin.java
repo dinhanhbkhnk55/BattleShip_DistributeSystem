@@ -67,14 +67,18 @@ public class DialogLogin {
 		pos_loginFormOff = new Vector2(pos_loginForm.x, pos_loginForm.y - 500);
 
 		ButtonStyle btnGoStyle = new ButtonStyle(skin.getDrawable("btnGoUp"),
-				skin.getDrawable("btnGoUp"), skin.getDrawable("btnGoChecked"));
+				skin.getDrawable("btnGoChecked"), skin.getDrawable("btnGoUp"));
 		btn_go = new Button(btnGoStyle);
 		btn_go.addListener(new ChangeListener() {
 
 			@Override
 			public void changed(ChangeEvent event, Actor actor) {
-				showStage(false);
-				menuScreen.showStartGame();
+				if (tex_username.getText().equalsIgnoreCase("")) {
+					Debug.d("Null");
+				} else {
+					showStage(false);
+					menuScreen.showStartGame();
+				}
 			}
 		});
 
@@ -83,7 +87,7 @@ public class DialogLogin {
 		tex_password = new TextField("", skin);
 
 		img_login.setPosition(pos_loginFormOff.x, pos_loginFormOff.y);
-		btn_go.setPosition(pos_loginFormOff.x, pos_loginFormOff.y);
+		btn_go.setPosition(pos_loginFormOff.x + 426, pos_loginFormOff.y);
 		tex_username.setBounds(47 + pos_loginFormOff.x,
 				pos_loginFormOff.y + 100, 130, 28);
 		tex_password.setBounds(235 + pos_loginFormOff.x,
@@ -117,8 +121,8 @@ public class DialogLogin {
 
 			img_login.addAction(Actions.moveTo(pos_loginForm.x,
 					pos_loginForm.y, 1f, Interpolation.swing));
-			btn_go.addAction(Actions.moveTo(pos_loginForm.x, pos_loginForm.y,
-					1f, Interpolation.swing));
+			btn_go.addAction(Actions.moveTo(pos_loginForm.x + 426,
+					pos_loginForm.y, 1f, Interpolation.swing));
 
 			tex_username.addAction(Actions.moveTo(47 + pos_loginForm.x,
 					pos_loginForm.y + 100, 1f, Interpolation.swing));
@@ -128,7 +132,7 @@ public class DialogLogin {
 		} else {
 			img_login.addAction(Actions.moveTo(pos_loginFormOff.x,
 					pos_loginFormOff.y, 1f, Interpolation.swing));
-			btn_go.addAction(Actions.moveTo(pos_loginFormOff.x,
+			btn_go.addAction(Actions.moveTo(pos_loginFormOff.x + 426,
 					pos_loginFormOff.y, 1f, Interpolation.swing));
 
 			tex_username.addAction(Actions.moveTo(47 + pos_loginFormOff.x,

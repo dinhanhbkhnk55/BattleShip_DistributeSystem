@@ -3,7 +3,7 @@ package com.dinhanh.battleship.utils;
 public class State {
 	public static final int CREATE = 0;
 	public static final int RUNNING = 1;
-	public static final int DISMISS = 11;
+	public static final int DISMISS = 10;
 	public static final int PAUSE = 2;
 	public static final int PAUSE_EXIT = 22;
 	public static final int GAME_OVER = 3;
@@ -13,4 +13,7 @@ public class State {
 	public static final int FLASH = 5;
 	public static final int INIT = 6;
 	public static final int DISABLE = 8;
+	public static final int WAIT_GAME_START = 9;
+	public static boolean collisionable = false;
+
 }

@@ -29,9 +29,12 @@ public abstract class GameObject {
 	public int[] sequenceFrame;
 	public int renderPiority;
 	public Sprite spriteObject;
+	private float time = 0f;
+	private float maxTime = 0f;
 
 	public GameObject(Animation animation) {
 		this.animation = animation;
+		animation.setPlayMode(Animation.PlayMode.LOOP);
 		spriteObject = new Sprite(animation.getKeyFrame(0));
 		position = new Vector2();
 		velocity = new Vector2();
@@ -43,6 +46,7 @@ public abstract class GameObject {
 
 		frame = 0;
 		renderPiority = 0;
+		maxTime = 10 * animation.animationDuration;
 		sequenceFrame = new int[(int) (animation.animationDuration / animation.frameDuration)];
 		for (int i = 0; i < sequenceFrame.length; i++) {
 			sequenceFrame[i] = i;
@@ -115,7 +119,9 @@ public abstract class GameObject {
 	}
 
 	public void setPosition(Vector2 position) {
-		this.position = position;
+		// this.position = position;
+		this.position.set(position.x - getTextureRegion().getRegionWidth() / 2,
+				position.y - getTextureRegion().getRegionHeight() / 2);
 	}
 
 	public void move(float x, float y) {
@@ -136,8 +142,12 @@ public abstract class GameObject {
 			spriteObject = new Sprite(animation.getKeyFrame(frame
 					* animation.frameDuration));
 		}
-
-		spriteObject.setRegion(animation.getKeyFrame(frame * animation.frameDuration));
+		if (time < maxTime) {
+			time += deltaTime;
+		} else {
+			time = 0;
+		}
+		spriteObject.setRegion(animation.getKeyFrame(time));
 		spriteObject.setPosition(position.x, position.y);
 		spriteObject.setRotation(rotation);
 		spriteObject.setScale(scale);

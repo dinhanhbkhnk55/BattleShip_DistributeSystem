@@ -12,7 +12,6 @@ import com.badlogic.gdx.math.Vector2;
 import com.dinhanh.battleShipClient.ClientProgram;
 import com.dinhanh.battleship.assets.Assets;
 import com.dinhanh.battleship.clientpack.PacketMessage;
-import com.dinhanh.battleship.game.GameConfig;
 import com.dinhanh.battleship.utils.CommonProcess;
 import com.dinhanh.battleship.utils.State;
 import com.dinhanh.battleship.utils.Storage;
@@ -20,6 +19,9 @@ import com.dinhanh.myUtils.GameObject;
 import com.dinhanh.myUtils.OverlapTester;
 
 public class Player extends GameObject {
+	/**
+	 * 
+	 */
 	public static final int MOVE_DOWN = 0;
 	public static final int MOVE_LEFT = 1;
 	public static final int MOVE_RIGHT = 2;
@@ -145,19 +147,21 @@ public class Player extends GameObject {
 		sendTCPPack();
 	}
 
+
+	
+
 	private void updateOtherPlayer(float deltaTime) {
-
+		
 	}
-
+	
 	float timeRandomFire = 1f;
 	float timeRandomMove = 0;
-
 	private void updateAutoMovePlayer(float deltaTime) {
 		switch (getState()) {
 		case State.RUNNING:
 			if (OverlapTester.pointInRectangle(new Rectangle(0, 0,
-					Storage.instance.WIDTH_SCREEN,
-					Storage.instance.HEIGHT_SCREEN), getOrinCenter())) {
+					Storage.instance.WIDTH_SCREEN, Storage.instance.HEIGHT_SCREEN),
+					getOrinCenter())) {
 				// Auto fire
 				if (timeRandomFire > 0) {
 					timeRandomFire -= deltaTime;
@@ -216,7 +220,7 @@ public class Player extends GameObject {
 			// send TCP here
 			// ======Begin Send Process=============
 			if (isSendingPack) {
-				packetMessage.clientID = GameConfig.clientID;
+				packetMessage.clientID = clientID;
 				packetMessage.playerStateMove = this.stateMove;
 				packetMessage.isRelease = isRealse;
 				packetMessage.isFire = isFire;
@@ -236,20 +240,19 @@ public class Player extends GameObject {
 	@Override
 	public void render(float deltaTime, OrthographicCamera camera,
 			SpriteBatch batch) {
-		if (getState() == State.RUNNING)
+		if (getState() != State.DISABLE) {
+			update(deltaTime);
 			renderSprite(deltaTime, batch);
+		}
 	}
 
 	boolean isPlayerCreated = false;
 
 	public void createPlayer(float posX, float posY) {
 		if (!isPlayerCreated) {
-			temposition.set(posX - spriteObject.getWidth() / 2, posY
-					- spriteObject.getHeight() / 2);
+			setPosition(posX - spriteObject.getWidth() / 2,
+					posY - spriteObject.getHeight() / 2);
 			setState(State.RUNNING);
-			setStateMove(MOVE_START_UP);
-			// isSendingPack = true;
-			// sendTCPPack();
 			isPlayerCreated = true;
 		}
 	}
@@ -257,6 +260,7 @@ public class Player extends GameObject {
 	@Override
 	public void collision() {
 		this.setState(State.DISMISS);
+		if(getPlayerType() == TYPE_MYPLAYER)
 		CommonProcess.setGameState(State.GAME_OVER);
 	}
 
@@ -332,8 +336,17 @@ public class Player extends GameObject {
 		}
 	}
 
+//	private void moveLeft(float deltaTime) {
+//		rotation = 90;
+//		bullet.setState(State.RUNNING);
+//		bullet.setAlpha(new Random().nextInt(360) );
+//		bullet.setPosition(new Vector2(position.x
+//				+ getTextureRegion().getRegionWidth() - 20, position.y
+//				+ getTextureRegion().getRegionHeight() / 2 - 10));
+//		BulletContainer.instance.addGameObject(bullet);
+//	}
+
 	private void moveLeft(float deltaTime) {
-		rotation = 90;
 		move(-SPEED, 0);
 	}
 
@@ -368,7 +381,7 @@ public class Player extends GameObject {
 				SPEED = tempSpeed;
 			} else {
 				tempSpeed = 2.0f;
-				SPEED = tempSpeed;
+				// SPEED = tempSpeed;
 				setStateMove(MOVE_NONE);
 			}
 		}

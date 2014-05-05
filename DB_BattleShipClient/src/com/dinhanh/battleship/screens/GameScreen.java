@@ -1,6 +1,7 @@
 package com.dinhanh.battleship.screens;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
@@ -80,6 +81,13 @@ public class GameScreen extends AbstractGameScreen {
 			worldController.update(deltaTime);
 			break;
 		case State.GAME_OVER:
+		updateScore();
+		myInputProcessor.update();
+		switch (CommonProcess.getGameState()) {
+		case State.RUNNING:
+			worldController.update(deltaTime);
+			break;
+		case State.PAUSE:
 			if (!dialog.isShowGameOver()) {
 				dialog.showGameOver(true);
 			}
@@ -112,7 +120,13 @@ public class GameScreen extends AbstractGameScreen {
 		if (Gdx.input.isKeyPressed(Keys.Z)) {
 			CommonProcess.setGameState(State.RESTART);
 		}
-
+		if (Gdx.input.isButtonPressed(Input.Buttons.RIGHT)) {
+			setPlayerRed(true);
+		}
+		if (Gdx.input.isButtonPressed(Input.Buttons.MIDDLE)) {
+			setPlayerRed(false);
+		}
+		}
 	}
 
 	private void updateScore() {
@@ -134,6 +148,8 @@ public class GameScreen extends AbstractGameScreen {
 		worldRenderer.render(deltaTime);
 		dialog.render();
 		minmap.render();
+		worldRenderer.render(deltaTime);
+		dialog.render();
 	}
 
 	@Override
@@ -149,6 +165,18 @@ public class GameScreen extends AbstractGameScreen {
 	@Override
 	public InputProcessor getInputProcessor() {
 		return inputMultiplexer;
+	}
+
+	public void setPlayerRed(boolean isPlayerRed) {
+		if (!isPlayerRed) {
+			// clientListener.setEnemy(worldController.player);
+			// dialog.setPlayer(worldController.enemy);
+			// myInputProcessor.setPlayer(worldController.enemy);
+		} else {
+			// clientListener.setEnemy(worldController.enemy);
+			dialog.setPlayer(worldController.player);
+			myInputProcessor.setPlayer(worldController.player);
+		}
 	}
 
 	public boolean isMultiGame() {

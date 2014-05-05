@@ -7,8 +7,10 @@ import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
 import com.dinhanh.ballteShip.actions.MyInputProcessor;
 import com.dinhanh.battleship.dialog.GameDialog;
+import com.dinhanh.battleship.game.GameConfig;
 import com.dinhanh.battleship.game.WorldController;
 import com.dinhanh.battleship.game.WorldRenderer;
+import com.dinhanh.battleship.objects.BulletContainer;
 import com.dinhanh.battleship.objects.EnemyContainer;
 import com.dinhanh.battleship.utils.CommonProcess;
 import com.dinhanh.battleship.utils.GamePreferences;
@@ -75,17 +77,24 @@ public class GameScreen extends AbstractGameScreen {
 		myInputProcessor.update();
 		switch (CommonProcess.getGameState()) {
 		case State.WAIT_GAME_START:
-			
+			// do something here
+			if (GameConfig.ishost) {
+				// send request start game
+				CommonProcess.setGameState(State.RUNNING);
+			} else {
+				// wait before game start
+				CommonProcess.setGameState(State.RUNNING);
+			}
+
 			break;
 		case State.RUNNING:
 			worldController.update(deltaTime);
 			break;
 		case State.GAME_OVER:
-		updateScore();
-		myInputProcessor.update();
-		switch (CommonProcess.getGameState()) {
-		case State.RUNNING:
-			worldController.update(deltaTime);
+			EnemyContainer.instance.removeAllElements();
+			BulletContainer.instance.removeAllElements();
+			if (!dialog.isShowGameOver())
+				dialog.showGameOver(true);
 			break;
 		case State.PAUSE:
 			if (!dialog.isShowGameOver()) {
@@ -126,7 +135,6 @@ public class GameScreen extends AbstractGameScreen {
 		if (Gdx.input.isButtonPressed(Input.Buttons.MIDDLE)) {
 			setPlayerRed(false);
 		}
-		}
 	}
 
 	private void updateScore() {
@@ -141,14 +149,8 @@ public class GameScreen extends AbstractGameScreen {
 	@Override
 	public void render(float deltaTime) {
 		update(deltaTime);
-		
-		
-		
-		
 		worldRenderer.render(deltaTime);
-		dialog.render();
 		minmap.render();
-		worldRenderer.render(deltaTime);
 		dialog.render();
 	}
 

@@ -80,7 +80,6 @@ public class Player extends GameObject {
 		case TYPE_AUTOMOVE_PLAYER:
 			updateAutoMovePlayer(deltaTime);
 			break;
-
 		default:
 			break;
 		}
@@ -147,21 +146,19 @@ public class Player extends GameObject {
 		sendTCPPack();
 	}
 
-
-	
-
 	private void updateOtherPlayer(float deltaTime) {
-		
+
 	}
-	
+
 	float timeRandomFire = 1f;
 	float timeRandomMove = 0;
+
 	private void updateAutoMovePlayer(float deltaTime) {
 		switch (getState()) {
 		case State.RUNNING:
 			if (OverlapTester.pointInRectangle(new Rectangle(0, 0,
-					Storage.instance.WIDTH_SCREEN, Storage.instance.HEIGHT_SCREEN),
-					getOrinCenter())) {
+					Storage.instance.WIDTH_SCREEN,
+					Storage.instance.HEIGHT_SCREEN), getOrinCenter())) {
 				// Auto fire
 				if (timeRandomFire > 0) {
 					timeRandomFire -= deltaTime;
@@ -241,7 +238,7 @@ public class Player extends GameObject {
 	public void render(float deltaTime, OrthographicCamera camera,
 			SpriteBatch batch) {
 		if (getState() != State.DISABLE) {
-			update(deltaTime);
+			// update(deltaTime);
 			renderSprite(deltaTime, batch);
 		}
 	}
@@ -250,9 +247,14 @@ public class Player extends GameObject {
 
 	public void createPlayer(float posX, float posY) {
 		if (!isPlayerCreated) {
-			setPosition(posX - spriteObject.getWidth() / 2,
-					posY - spriteObject.getHeight() / 2);
-			setState(State.RUNNING);
+			// setPosition(posX - spriteObject.getWidth() / 2,
+			// posY - spriteObject.getHeight() / 2);
+			// setState(State.RUNNING);
+
+			temposition.set(posX - spriteObject.getWidth() / 2, posY
+					- spriteObject.getHeight() / 2);
+			setState(State.WAIT_GAME_START);
+			setStateMove(MOVE_START_UP);
 			isPlayerCreated = true;
 		}
 	}
@@ -260,8 +262,8 @@ public class Player extends GameObject {
 	@Override
 	public void collision() {
 		this.setState(State.DISMISS);
-		if(getPlayerType() == TYPE_MYPLAYER)
-		CommonProcess.setGameState(State.GAME_OVER);
+		if (getPlayerType() == TYPE_MYPLAYER)
+			CommonProcess.setGameState(State.GAME_OVER);
 	}
 
 	@Override
@@ -336,17 +338,8 @@ public class Player extends GameObject {
 		}
 	}
 
-//	private void moveLeft(float deltaTime) {
-//		rotation = 90;
-//		bullet.setState(State.RUNNING);
-//		bullet.setAlpha(new Random().nextInt(360) );
-//		bullet.setPosition(new Vector2(position.x
-//				+ getTextureRegion().getRegionWidth() - 20, position.y
-//				+ getTextureRegion().getRegionHeight() / 2 - 10));
-//		BulletContainer.instance.addGameObject(bullet);
-//	}
-
 	private void moveLeft(float deltaTime) {
+		rotation = 90;
 		move(-SPEED, 0);
 	}
 

@@ -213,8 +213,9 @@ public class GameDialog {
 	public void showGameOver(boolean showGameOver) {
 		this.showGameOver = showGameOver;
 		if (showGameOver) {
+			gameOver.addAction(Actions.alpha(1.0f));
 			gameOver.addAction(Actions.moveTo(
-					Storage.instance.WIDTH_SCREEN / 2 - 60, 300, 1f,
+					Storage.instance.WIDTH_SCREEN / 2 - 60, 300, 1.5f,
 					Interpolation.swing));
 			refresh.addAction(Actions.moveTo(
 					Storage.instance.WIDTH_SCREEN / 2 - 40,
@@ -225,12 +226,16 @@ public class GameDialog {
 					Storage.instance.HEIGHT_SCREEN - 60, 1f,
 					Interpolation.swing));
 
-			moveUp.addAction(Actions.moveTo(90, -130, 1f, Interpolation.swing));
-			moveDown.addAction(Actions.moveTo(90, -50, 1f, Interpolation.swing));
-			moveLeft.addAction(Actions.moveTo(40, -90, 1f, Interpolation.swing));
-			moveRight.addAction(Actions.moveTo(140, -90, 1f,
-					Interpolation.swing));
-			fire.addAction(Actions.moveTo(710, -50, 1f, Interpolation.swing));
+			// moveUp.addAction(Actions.moveTo(90, -130, 1f,
+			// Interpolation.swing));
+			// moveDown.addAction(Actions.moveTo(90, -50, 1f,
+			// Interpolation.swing));
+			// moveLeft.addAction(Actions.moveTo(40, -90, 1f,
+			// Interpolation.swing));
+			// moveRight.addAction(Actions.moveTo(140, -90, 1f,
+			// Interpolation.swing));
+			// fire.addAction(Actions.moveTo(710, -50, 1f,
+			// Interpolation.swing));
 		} else {
 			gameOver.addAction(Actions.moveTo(
 					Storage.instance.WIDTH_SCREEN / 2 - 40, 800, 1f,
